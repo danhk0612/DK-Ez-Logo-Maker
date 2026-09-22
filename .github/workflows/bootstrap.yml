@@ -20,9 +20,15 @@ jobs:
       - name: Restore source tree
         shell: pwsh
         run: |
-          $b64 = (Get-Content bootstrap/source.part00 -Raw) +
-                 (Get-Content bootstrap/source.part01 -Raw) +
-                 (Get-Content bootstrap/source.part02 -Raw)
+          $b64 = (Get-Content bootstrap/chunk00 -Raw) +
+                 (Get-Content bootstrap/chunk01 -Raw) +
+                 (Get-Content bootstrap/chunk02 -Raw) +
+                 (Get-Content bootstrap/rem00 -Raw) +
+                 (Get-Content bootstrap/rem01 -Raw) +
+                 (Get-Content bootstrap/rem02 -Raw) +
+                 (Get-Content bootstrap/rem03 -Raw) +
+                 (Get-Content bootstrap/rem04 -Raw) +
+                 (Get-Content bootstrap/rem05 -Raw)
           [IO.File]::WriteAllBytes('source.zip', [Convert]::FromBase64String($b64))
           New-Item -ItemType Directory -Path extracted | Out-Null
           Expand-Archive -Path source.zip -DestinationPath extracted -Force
@@ -30,6 +36,8 @@ jobs:
           Remove-Item bootstrap -Recurse -Force
           Remove-Item source.zip -Force
           Remove-Item extracted -Recurse -Force
+          Remove-Item release-trigger.txt -Force -ErrorAction SilentlyContinue
+          Remove-Item release-trigger-2.txt -Force -ErrorAction SilentlyContinue
           Remove-Item .github/workflows/bootstrap.yml -Force
 
       - name: Commit source
