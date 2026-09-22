@@ -1,0 +1,371 @@
+<Window x:Class="DKEzLogoMaker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DK Ez Logo Maker"
+        Width="1180" Height="760" MinWidth="980" MinHeight="650"
+        WindowStartupLocation="CenterScreen"
+        Closing="Window_Closing">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="58"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="32"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="White" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1">
+            <Grid Margin="18,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="Assets/app.ico" Width="34" Height="34" Margin="0,0,10,0" SnapsToDevicePixels="True"/>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="DK Ez Logo Maker" FontSize="15" FontWeight="SemiBold"/>
+                        <TextBlock Text="Simple Windows logo editor" FontSize="10" Foreground="{StaticResource MutedTextBrush}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="NewButton" Content="＋ 새 작업" Margin="0,0,7,0" Click="NewButton_Click"/>
+                    <Button x:Name="OpenButton" Content="열기" Margin="0,0,7,0" Click="OpenButton_Click"/>
+                    <Button x:Name="SaveButton" Content="저장" Margin="0,0,7,0" Click="SaveButton_Click"/>
+                    <Button x:Name="SaveAsButton" Content="다른 이름으로" Margin="0,0,7,0" Click="SaveAsButton_Click"/>
+                    <Button x:Name="ExportButton" Style="{StaticResource PrimaryButton}" Content="PNG 내보내기" Click="ExportButton_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="#FAFBFC" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,1,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="16">
+                        <TextBlock Text="캔버스" FontWeight="SemiBold" FontSize="14" Margin="2,0,0,8"/>
+                        <Border Background="White" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10" Padding="12" Margin="0,0,0,14">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="가로" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                    <TextBox x:Name="CanvasWidthBox" TextChanged="EditorControl_Changed" LostKeyboardFocus="CanvasSizeBox_LostKeyboardFocus"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="세로" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                    <TextBox x:Name="CanvasHeightBox" TextChanged="EditorControl_Changed" LostKeyboardFocus="CanvasSizeBox_LostKeyboardFocus"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <TextBlock Text="배경" FontWeight="SemiBold" FontSize="14" Margin="2,0,0,8"/>
+                        <Border Background="White" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10" Padding="12" Margin="0,0,0,14">
+                            <StackPanel>
+                                <TextBlock Text="종류" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                <ComboBox x:Name="BackgroundModeCombo" SelectionChanged="EditorControl_Changed">
+                                    <ComboBoxItem Content="투명" Tag="Transparent"/>
+                                    <ComboBoxItem Content="단색" Tag="Solid"/>
+                                    <ComboBoxItem Content="그라디에이션" Tag="Gradient"/>
+                                </ComboBox>
+
+                                <Grid Margin="0,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="42"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="색상 1" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                        <TextBox x:Name="BackgroundColor1Box" TextChanged="EditorControl_Changed"/>
+                                    </StackPanel>
+                                    <Button x:Name="BackgroundColor1Button" Grid.Column="2" Margin="0,17,0,0" Padding="0" Click="BackgroundColor1Button_Click" ToolTip="색상 선택"/>
+                                </Grid>
+
+                                <Grid x:Name="GradientColor2Panel" Margin="0,8,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="42"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="색상 2" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                        <TextBox x:Name="BackgroundColor2Box" TextChanged="EditorControl_Changed"/>
+                                    </StackPanel>
+                                    <Button x:Name="BackgroundColor2Button" Grid.Column="2" Margin="0,17,0,0" Padding="0" Click="BackgroundColor2Button_Click" ToolTip="색상 선택"/>
+                                </Grid>
+
+                                <StackPanel x:Name="GradientDirectionPanel" Margin="0,8,0,0">
+                                    <TextBlock Text="방향" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                    <ComboBox x:Name="GradientDirectionCombo" SelectionChanged="EditorControl_Changed">
+                                        <ComboBoxItem Content="→ 왼쪽에서 오른쪽" Tag="LeftToRight"/>
+                                        <ComboBoxItem Content="↓ 위에서 아래" Tag="TopToBottom"/>
+                                        <ComboBoxItem Content="↘ 좌상단에서 우하단" Tag="TopLeftToBottomRight"/>
+                                        <ComboBoxItem Content="↗ 좌하단에서 우상단" Tag="BottomLeftToTopRight"/>
+                                    </ComboBox>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Text="글자" FontWeight="SemiBold" FontSize="14" Margin="2,0,0,8"/>
+                        <Border Background="White" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10" Padding="12" Margin="0,0,0,14">
+                            <StackPanel>
+                                <TextBlock Text="내용" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                <TextBox x:Name="TextValueBox" TextChanged="EditorControl_Changed"/>
+
+                                <TextBlock Text="폰트" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,9,0,4"/>
+                                <ComboBox x:Name="FontFamilyCombo" IsEditable="True" IsTextSearchEnabled="True" SelectionChanged="EditorControl_Changed" LostKeyboardFocus="FontFamilyCombo_LostKeyboardFocus"/>
+
+                                <Grid Margin="0,9,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="크기" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                        <TextBox x:Name="TextSizeBox" TextChanged="EditorControl_Changed"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="굵기" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                        <ComboBox x:Name="FontWeightCombo" SelectionChanged="EditorControl_Changed">
+                                            <ComboBoxItem Content="Regular" Tag="Normal"/>
+                                            <ComboBoxItem Content="Medium" Tag="Medium"/>
+                                            <ComboBoxItem Content="SemiBold" Tag="SemiBold"/>
+                                            <ComboBoxItem Content="Bold" Tag="Bold"/>
+                                        </ComboBox>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid Margin="0,9,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="글자 간격" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                        <TextBox x:Name="TextSpacingBox" TextChanged="EditorControl_Changed"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="글자 색" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="42"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox x:Name="TextColorBox" TextChanged="EditorControl_Changed"/>
+                                            <Button x:Name="TextColorButton" Grid.Column="2" Padding="0" Click="TextColorButton_Click" ToolTip="색상 선택"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Margin="0,9,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="중앙점 X" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                        <TextBox x:Name="TextCenterXBox" TextChanged="EditorControl_Changed"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="중앙점 Y" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                        <TextBox x:Name="TextCenterYBox" TextChanged="EditorControl_Changed"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <TextBlock Text="정렬" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,9,0,4"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="6"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" Content="⇤" ToolTip="가로 왼쪽 정렬" Tag="Text:H:Start" Click="AlignmentButton_Click"/>
+                                        <Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" Content="↔" ToolTip="가로 중앙 정렬" Tag="Text:H:Center" Click="AlignmentButton_Click"/>
+                                        <Button Width="34" Height="30" Padding="0" Content="⇥" ToolTip="가로 오른쪽 정렬" Tag="Text:H:End" Click="AlignmentButton_Click"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                        <Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" Content="↥" ToolTip="세로 위 정렬" Tag="Text:V:Start" Click="AlignmentButton_Click"/>
+                                        <Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" Content="↕" ToolTip="세로 중앙 정렬" Tag="Text:V:Center" Click="AlignmentButton_Click"/>
+                                        <Button Width="34" Height="30" Padding="0" Content="↧" ToolTip="세로 아래 정렬" Tag="Text:V:End" Click="AlignmentButton_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                                <TextBlock Text="미리보기에서 글자를 드래그해 이동하고, 네 모서리 핸들로 크기를 조절할 수 있습니다. 글자는 항상 캔버스 안에 유지됩니다." TextWrapping="Wrap" FontSize="10" Foreground="{StaticResource MutedTextBrush}" Margin="0,8,0,0"/>
+                            </StackPanel>
+                        </Border>
+
+                        <TextBlock Text="이미지" FontWeight="SemiBold" FontSize="14" Margin="2,0,0,8"/>
+                        <Border Background="White" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10" Padding="12" Margin="0,0,0,14">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Content="이미지 불러오기" Click="LoadImageButton_Click"/>
+                                    <Button Grid.Column="2" Content="지우기" Click="ClearImageButton_Click"/>
+                                </Grid>
+                                <TextBlock x:Name="ImageFileNameText" Text="이미지 없음" TextTrimming="CharacterEllipsis" FontSize="10" Foreground="{StaticResource MutedTextBrush}" Margin="2,7,2,0"/>
+
+                                <Grid Margin="0,9,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="가로 크기 (%)" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                        <TextBox x:Name="ImageScaleXBox" TextChanged="EditorControl_Changed"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="세로 크기 (%)" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                        <TextBox x:Name="ImageScaleYBox" TextChanged="EditorControl_Changed"/>
+                                    </StackPanel>
+                                </Grid>
+                                <CheckBox x:Name="ImagePreserveAspectCheckBox" Content="가로·세로 비율 유지" Margin="2,7,0,0" IsChecked="True" Checked="EditorControl_Changed" Unchecked="EditorControl_Changed"/>
+
+                                <Grid Margin="0,9,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Text="중앙점 X" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                        <TextBox x:Name="ImageCenterXBox" TextChanged="EditorControl_Changed"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="중앙점 Y" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,0,0,4"/>
+                                        <TextBox x:Name="ImageCenterYBox" TextChanged="EditorControl_Changed"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <TextBlock Text="정렬" Foreground="{StaticResource MutedTextBrush}" FontSize="11" Margin="0,9,0,4"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="6"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" Content="⇤" ToolTip="가로 왼쪽 정렬" Tag="Image:H:Start" Click="AlignmentButton_Click"/>
+                                        <Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" Content="↔" ToolTip="가로 중앙 정렬" Tag="Image:H:Center" Click="AlignmentButton_Click"/>
+                                        <Button Width="34" Height="30" Padding="0" Content="⇥" ToolTip="가로 오른쪽 정렬" Tag="Image:H:End" Click="AlignmentButton_Click"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                        <Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" Content="↥" ToolTip="세로 위 정렬" Tag="Image:V:Start" Click="AlignmentButton_Click"/>
+                                        <Button Width="34" Height="30" Padding="0" Margin="0,0,4,0" Content="↕" ToolTip="세로 중앙 정렬" Tag="Image:V:Center" Click="AlignmentButton_Click"/>
+                                        <Button Width="34" Height="30" Padding="0" Content="↧" ToolTip="세로 아래 정렬" Tag="Image:V:End" Click="AlignmentButton_Click"/>
+                                    </StackPanel>
+                                </Grid>
+                                <TextBlock Text="미리보기에서 이미지를 드래그해 이동하고, 네 모서리 핸들로 크기를 조절할 수 있습니다. 비율 유지를 끄면 가로·세로를 독립적으로 조절할 수 있습니다." TextWrapping="Wrap" FontSize="10" Foreground="{StaticResource MutedTextBrush}" Margin="0,8,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <Grid Grid.Column="1" Margin="22">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="미리보기" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,0,12,0" VerticalAlignment="Center">
+                        <Button Width="34" Height="34" Padding="0" Margin="0,0,5,0" ToolTip="확대" Click="ZoomInButton_Click">
+                            <Grid Width="18" Height="18">
+                                <Ellipse Width="11" Height="11" Stroke="#4B5563" StrokeThickness="1.6" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <Path Data="M10,10 L17,17" Stroke="#4B5563" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                <Path Data="M5.5,3.5 L5.5,8.5 M3,6 L8,6" Stroke="#4B5563" StrokeThickness="1.4" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                            </Grid>
+                        </Button>
+                        <Button Width="34" Height="34" Padding="0" Margin="0,0,5,0" ToolTip="축소" Click="ZoomOutButton_Click">
+                            <Grid Width="18" Height="18">
+                                <Ellipse Width="11" Height="11" Stroke="#4B5563" StrokeThickness="1.6" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <Path Data="M10,10 L17,17" Stroke="#4B5563" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                                <Path Data="M3,6 L8,6" Stroke="#4B5563" StrokeThickness="1.4" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                            </Grid>
+                        </Button>
+                        <Button Width="34" Height="34" Padding="0" Margin="0,0,5,0" ToolTip="미리보기 공간에 맞춤" Click="FitPreviewButton_Click">
+                            <Viewbox Width="17" Height="17">
+                                <Path Data="M2,8 V2 H8 M16,2 H22 V8 M22,16 V22 H16 M8,22 H2 V16" Stroke="#4B5563" StrokeThickness="2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                            </Viewbox>
+                        </Button>
+                        <Button Width="34" Height="34" Padding="0" ToolTip="원본 크기 (100%)" Click="ActualSizeButton_Click">
+                            <TextBlock Text="1:1" FontSize="10" FontWeight="SemiBold" Foreground="#4B5563"/>
+                        </Button>
+                        <TextBlock x:Name="ZoomText" Text="100%" Width="48" TextAlignment="Right" VerticalAlignment="Center" Margin="7,0,0,0" FontSize="11" Foreground="{StaticResource MutedTextBrush}"/>
+                    </StackPanel>
+                    <TextBlock x:Name="CanvasInfoText" Grid.Column="2" HorizontalAlignment="Right" Foreground="{StaticResource MutedTextBrush}" VerticalAlignment="Center"/>
+                </Grid>
+
+                <Border x:Name="PreviewViewport" Grid.Row="1" Background="#E9EDF2" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="12" Padding="12" SizeChanged="PreviewViewport_SizeChanged">
+                    <Grid>
+                        <Grid.Resources>
+                            <DrawingBrush x:Key="CheckerBrush" TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute" Viewbox="0,0,20,20" ViewboxUnits="Absolute">
+                                <DrawingBrush.Drawing>
+                                    <DrawingGroup>
+                                        <GeometryDrawing Brush="#FFFFFF" Geometry="M0,0 H20 V20 H0 Z"/>
+                                        <GeometryDrawing Brush="#E9ECEF" Geometry="M0,0 H10 V10 H0 Z M10,10 H20 V20 H10 Z"/>
+                                    </DrawingGroup>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Grid.Resources>
+
+                        <ScrollViewer x:Name="PreviewScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PanningMode="Both">
+                            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Margin="8">
+                                <Canvas x:Name="PreviewCanvas"
+                                        Width="512" Height="256"
+                                        Background="{StaticResource CheckerBrush}"
+                                        ClipToBounds="True"
+                                        Cursor="Arrow"
+                                        MouseLeftButtonDown="PreviewCanvas_MouseLeftButtonDown"
+                                        MouseRightButtonDown="PreviewCanvas_MouseRightButtonDown"
+                                        MouseMove="PreviewCanvas_MouseMove"
+                                        MouseLeave="PreviewCanvas_MouseLeave"
+                                        MouseLeftButtonUp="PreviewCanvas_MouseLeftButtonUp">
+                                    <Canvas.LayoutTransform>
+                                        <ScaleTransform x:Name="PreviewScaleTransform" ScaleX="1" ScaleY="1"/>
+                                    </Canvas.LayoutTransform>
+                                    <Image x:Name="PreviewImage" Width="512" Height="256" Stretch="Fill" SnapsToDevicePixels="True" IsHitTestVisible="False"/>
+                                    <Rectangle x:Name="SelectionBorder" Visibility="Collapsed" Stroke="{StaticResource AccentBrush}" StrokeThickness="1.5" Fill="Transparent" IsHitTestVisible="False"/>
+                                    <Rectangle x:Name="ResizeHandleTopLeft" Visibility="Collapsed" Width="10" Height="10" Fill="{StaticResource AccentBrush}" Stroke="White" StrokeThickness="1" IsHitTestVisible="False"/>
+                                    <Rectangle x:Name="ResizeHandleTopRight" Visibility="Collapsed" Width="10" Height="10" Fill="{StaticResource AccentBrush}" Stroke="White" StrokeThickness="1" IsHitTestVisible="False"/>
+                                    <Rectangle x:Name="ResizeHandleBottomLeft" Visibility="Collapsed" Width="10" Height="10" Fill="{StaticResource AccentBrush}" Stroke="White" StrokeThickness="1" IsHitTestVisible="False"/>
+                                    <Rectangle x:Name="ResizeHandleBottomRight" Visibility="Collapsed" Width="10" Height="10" Fill="{StaticResource AccentBrush}" Stroke="White" StrokeThickness="1" IsHitTestVisible="False"/>
+                                </Canvas>
+                            </Grid>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <Border Grid.Row="2" Background="White" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0">
+            <Grid Margin="16,0">
+                <TextBlock x:Name="StatusText" Text="준비" VerticalAlignment="Center" FontSize="11" Foreground="{StaticResource MutedTextBrush}"/>
+                <TextBlock Text=".dklm 프로젝트 · PNG 내보내기" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="11" Foreground="{StaticResource MutedTextBrush}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

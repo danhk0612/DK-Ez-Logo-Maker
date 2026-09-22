@@ -1,1 +1,0 @@
-Trigger GitHub Actions for DK Ez Logo Maker v1.0.0 release.

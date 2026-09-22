@@ -1,0 +1,60 @@
+<Window x:Class="DKEzLogoMaker.ExportOptionsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PNG 내보내기 옵션"
+        Width="440" MinWidth="440"
+        SizeToContent="Height"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="PNG 내보내기" FontSize="18" FontWeight="SemiBold"/>
+        <TextBlock Grid.Row="1" Text="출력 크기와 이미지 스케일링 방식을 선택합니다." Margin="0,4,0,16" Foreground="{StaticResource MutedTextBrush}"/>
+
+        <Border Grid.Row="2" Background="White" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10" Padding="14">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="출력 배율" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="ScaleCombo" Grid.Column="1" SelectionChanged="ScaleCombo_SelectionChanged">
+                        <ComboBoxItem Content="25%" Tag="25"/>
+                        <ComboBoxItem Content="50%" Tag="50"/>
+                        <ComboBoxItem Content="100%" Tag="100"/>
+                        <ComboBoxItem Content="200%" Tag="200"/>
+                        <ComboBoxItem Content="400%" Tag="400"/>
+                    </ComboBox>
+                </Grid>
+
+                <Grid Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="110"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="스케일링" VerticalAlignment="Center"/>
+                    <ComboBox x:Name="ScalingModeCombo" Grid.Column="1">
+                        <ComboBoxItem Content="고품질" Tag="HighQuality"/>
+                        <ComboBoxItem Content="일반" Tag="Linear"/>
+                        <ComboBoxItem Content="픽셀 보존" Tag="NearestNeighbor"/>
+                    </ComboBox>
+                </Grid>
+
+                <TextBlock x:Name="OutputSizeText" Margin="110,10,0,0" Foreground="{StaticResource MutedTextBrush}" FontSize="11"/>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+            <Button Content="취소" MinWidth="78" Margin="0,0,8,0" IsCancel="True"/>
+            <Button Content="계속" MinWidth="78" Style="{StaticResource PrimaryButton}" IsDefault="True" Click="OkButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

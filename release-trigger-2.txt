@@ -1,1 +1,0 @@
-Retry GitHub Actions bootstrap for DK Ez Logo Maker v1.0.0.
