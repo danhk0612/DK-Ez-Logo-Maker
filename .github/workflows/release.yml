@@ -65,6 +65,10 @@ jobs:
           - .NET 10 Desktop Runtime 필요
           "@ | Set-Content -Path release-notes.md -Encoding utf8
 
+          if (gh release view v1.0.0 2>$null) {
+            gh release delete v1.0.0 --cleanup-tag --yes
+          }
+
           gh release create v1.0.0 `
             DK-Ez-Logo-Maker-v1.0.0-win-x64.zip `
             --target "$env:GITHUB_SHA" `
