@@ -6,7 +6,9 @@
 
 ## 다운로드
 
-GitHub의 **Releases**에서 최신 `DK-Ez-Logo-Maker-v1.0.0-win-x64.zip`을 내려받아 원하는 폴더에 압축을 풀고 `DK Ez Logo Maker.exe`를 실행합니다.
+[**DK Ez Logo Maker v1.0.0 다운로드**](https://github.com/danhk0612/DK-Ez-Logo-Maker/releases/download/v1.0.0/DK-Ez-Logo-Maker-v1.0.0-win-x64.zip)
+
+ZIP 파일을 원하는 폴더에 압축을 풀고 `DK Ez Logo Maker.exe`를 실행하면 됩니다. 설치 과정은 없습니다.
 
 ### 실행 환경
 
