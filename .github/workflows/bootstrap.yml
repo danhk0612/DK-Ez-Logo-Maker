@@ -38,7 +38,8 @@ jobs:
           Remove-Item extracted -Recurse -Force
           Remove-Item release-trigger.txt -Force -ErrorAction SilentlyContinue
           Remove-Item release-trigger-2.txt -Force -ErrorAction SilentlyContinue
-          Remove-Item .github/workflows/bootstrap.yml -Force
+          Remove-Item release-trigger-3.txt -Force -ErrorAction SilentlyContinue
+          Remove-Item .github/workflows/release.yml -Force -ErrorAction SilentlyContinue
 
       - name: Commit source
         shell: pwsh
